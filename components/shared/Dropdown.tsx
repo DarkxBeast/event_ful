@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { ICategory } from "@/lib/database/models/category.models";
+import { ICategory } from "@/lib/database/models/category.model";
 import { startTransition, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { createCategory, getAllCategories } from "@/lib/actions/category.actions";
