@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { date, z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,7 +24,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Image from "next/image";
-import { Date } from "mongoose";
 
 type EventFOrmProps = {
   userId: string;
@@ -179,7 +178,7 @@ const EventForm = ({ userId, type }: EventFOrmProps) => {
                       </p>
                       <DatePicker
                         selected={field.value}
-                        onChange={(date: Date) => field.onChange(date)}
+                        onChange={(date: Date | null, event?: React.MouseEvent<HTMLElement, MouseEvent> | React.KeyboardEvent<HTMLElement> | undefined) => field.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
                         dateFormat="dd/MM/yyyy h:mm aa"
@@ -214,7 +213,7 @@ const EventForm = ({ userId, type }: EventFOrmProps) => {
                       </p>
                       <DatePicker
                         selected={field.value}
-                        onChange={(date: Date) => field.onChange(date)}
+                        onChange={(date: Date | null, event?: React.MouseEvent<HTMLElement, MouseEvent> | React.KeyboardEvent<HTMLElement> | undefined) => field.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
                         dateFormat="dd/MM/yyyy h:mm aa"
@@ -263,8 +262,8 @@ const EventForm = ({ userId, type }: EventFOrmProps) => {
                                   Free Event
                                 </label>
                                 <Checkbox
-                                onCheckedChange={field.onChange}
-                                checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                  checked={field.value}
                                   id="isFree"
                                   className="mr-2 h-5 w-5 border-2 border-primary-500"
                                 />
@@ -315,9 +314,9 @@ const EventForm = ({ userId, type }: EventFOrmProps) => {
             disabled={form.formState.isSubmitting}
             className="button-col-span-2 w-full"
           >
-            {form.formState.isSubmitting? (
-              'Creating Event...'
-            ): `${type} Event`}
+            {form.formState.isSubmitting
+              ? "Creating Event..."
+              : `${type} Event`}
           </Button>
         </form>
       </Form>
