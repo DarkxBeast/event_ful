@@ -48,7 +48,8 @@ const CategoryFilter = () => {
   }
 
   return (
-    <Select onValueChange={(value: string) => onSelectCategory(value)}>
+    <div className="flex-center w-[60%] overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
+      <Select onValueChange={(value: string) => onSelectCategory(value)}>
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
@@ -62,6 +63,8 @@ const CategoryFilter = () => {
         ))}
       </SelectContent>
     </Select>
+    </div>
+    
   )
 }
 

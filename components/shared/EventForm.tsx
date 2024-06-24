@@ -109,9 +109,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500 ">
                 <FormControl>
-                  <Input placeholder="Event title" {...field} className="input-field" />
+                  <Input placeholder="Event title" {...field}  className="input-field" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,7 +121,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             control={form.control}
             name="categoryId"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                 <FormControl>
                   <Dropdown onChangeHandler={field.onChange} value={field.value} />
                 </FormControl>
@@ -136,7 +136,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded bg-grey-50 border border-stroke-500">
                   <FormControl className="h-72">
                     <Textarea placeholder="Description" {...field} className="textarea rounded-2xl" />
                   </FormControl>
@@ -148,7 +148,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="imageUrl"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded bg-grey-50 border border-stroke-500 border-dashed">
                   <FormControl className="h-72">
                     <FileUploader 
                       onFieldChange={field.onChange}
@@ -167,17 +167,17 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="location"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                   <FormControl>
                     <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                       <Image
                         src="/assets/icons/location-grey.svg"
-                        alt="calendar"
+                        alt="location"
                         width={24}
                         height={24}
                       />
 
-                      <Input placeholder="Event location or Online" {...field} className="input-field" />
+                      <Input placeholder="Event location" {...field} className="input-field" />
                     </div>
 
                   </FormControl>
@@ -192,7 +192,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="startDateTime"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                   <FormControl>
                     <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                       <Image
@@ -225,7 +225,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="endDateTime"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                   <FormControl>
                     <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                       <Image
@@ -260,7 +260,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="price"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                   <FormControl>
                     <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                       <Image
@@ -301,7 +301,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
               control={form.control}
               name="url"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full overflow-hidden rounded-full bg-grey-50 border border-stroke-500">
                   <FormControl>
                     <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                       <Image
