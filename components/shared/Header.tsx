@@ -1,50 +1,43 @@
-import { Button } from "../ui/button";
-import Link from "next/link";
-import Image from "next/image";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import NavItems from "./NavItems";
-import MobileNav from "./MobileNav";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "../ui/button"
+import NavItems from "./NavItems"
+import MobileNav from "./MobileNav"
 
 const Header = () => {
   return (
     <header className="w-full border-b">
-      <div className="wrapper flex ">
+      <div className="wrapper flex items-center justify-between">
         <Link href="/" className="w-36">
-          <Image
-            src="/assets/images/logo.png"
-            width={128}
-            height={32}
-            alt="Eventful logo"
-          ></Image>
+          <Image 
+            src="/assets/images/logo.png" width={128} height={40}
+            alt="EvenFul logo" 
+          />
         </Link>
 
         <SignedIn>
-          <nav
-            className="md:flex-between hidden  max-w-xs justify-center
-                pl-80 gap-50
-                "
-          >
+          <nav className="md:flex-between hidden w-full max-w-sm">
             <NavItems />
           </nav>
         </SignedIn>
 
-        <div
-          className="flex w-full justify-end pr-4
-             gap-3"
-        >
+        <div className="flex w-32 justify-end gap-3">
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
             <MobileNav />
           </SignedIn>
           <SignedOut>
-            <Button asChild className="rounded-full" size={"lg"}>
-              <Link href="/sign-in">Login</Link>
+            <Button asChild className="rounded-full" size="lg">
+              <Link href="/sign-in">
+                Login
+              </Link>
             </Button>
           </SignedOut>
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
