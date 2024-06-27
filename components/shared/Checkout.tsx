@@ -1,6 +1,10 @@
 // components/RazorpayCheckout.tsx
 import React from 'react';
-const RazorpayCheckout = () => {
+import { Button } from '../ui/button';
+import { IEvent } from '@/lib/database/models/event.model';
+
+
+const RazorpayCheckout = ({event, userId}:{event:IEvent, userId:string}) => {
   const loadScript = (src: string) => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -15,6 +19,7 @@ const RazorpayCheckout = () => {
     });
   };
 
+
   const displayRazorpay = async () => {
     const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
@@ -23,11 +28,14 @@ const RazorpayCheckout = () => {
       return;
     }
 
+    const price = Number(event.price)*100
+
     const data = await fetch('/api/razorpay/createOrder', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ amount: price })
     }).then((t) => t.json());
 
     const options = {
@@ -35,9 +43,9 @@ const RazorpayCheckout = () => {
       amount: data.amount,
       currency: data.currency,
       order_id: data.id,
-      name: 'Your Company Name',
-      description: 'Test Transaction',
-      image: 'https://example.com/your_logo',
+      name: 'Eventful',
+      description: event.title,
+      image: 'https://drive.google.com/file/d/16NG9lrqwTKjtFi5KbMKm29uQZpGeovSE/view?usp=sharing',
       handler: function (response: any) {
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -46,9 +54,9 @@ const RazorpayCheckout = () => {
         verifyPayment(response);
       },
       prefill: {
-        name: 'Gaurav Kumar',
-        email: 'gaurav.kumar@example.com',
-        contact: '9999999999',
+        name: 'John Doe',
+        email: 'John.doe@example.com',
+        contact: '',
       },
       notes: {
         address: 'Razorpay Corporate Office',
@@ -80,9 +88,11 @@ const RazorpayCheckout = () => {
   };
 
   return (
-    <div>
-      <button onClick={displayRazorpay}>Pay with Razorpay</button>
-    </div>
+     <form action={displayRazorpay} method="post">
+      <Button type="submit" role="link" size="lg" className="button sm:w-fit">
+        {event.isFree ? 'Get Ticket' : 'Buy Ticket'}
+      </Button>
+    </form>
   );
 };
 

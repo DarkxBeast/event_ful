@@ -8,8 +8,10 @@ const razorpay = new Razorpay({
 
 export async function POST(req: NextRequest) {
   try {
+    const { amount } = await req.json(); // Read amount from request body
+
     const options = {
-      amount: 50000, 
+      amount,
       currency: 'INR',
       receipt: 'order_rcptid_11',
       payment_capture: 1,
