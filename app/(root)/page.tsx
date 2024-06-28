@@ -1,11 +1,11 @@
 import Search from "@/components/shared/Search";
 import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import Link from "next/link";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import CategoryFilter from "@/components/shared/CategoryFilter";
+import Carousel from "@/components/shared/Carousel";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -18,6 +18,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
     page,
     limit: 6,
   });
+
 
   return (
     <>
@@ -36,13 +37,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
             </Button>
           </div>
 
-          <Image
-            src="/assets/images/hero.png"
-            alt="hero"
-            width={1000}
-            height={1000}
-            className="max-h-[70vh] object-contain object-center 2xl:max-h-[50vh]"
-          />
+        <Carousel />
         </div>
       </section>
 
