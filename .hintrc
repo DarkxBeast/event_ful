@@ -6,7 +6,8 @@
     "compat-api/css": "off",
     "no-inline-styles": "off",
     "typescript-config/consistent-casing": "off",
-    "axe/text-alternatives": "off"
+    "axe/text-alternatives": "off",
+    "disown-opener": "off"
   },
   "browserslist": [
     "defaults",

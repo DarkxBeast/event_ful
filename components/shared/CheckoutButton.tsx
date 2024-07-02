@@ -6,12 +6,10 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
 import Checkout from './Checkout'
-import { strict } from 'assert'
 
 const CheckoutButton = ({ event }: { event: IEvent }) => {
   const { user } = useUser();
   const userId = user?.publicMetadata.userId as string;
-  const userName = user?.fullName;
   const hasEventFinished = new Date(event.endDateTime) < new Date();
 
   return (

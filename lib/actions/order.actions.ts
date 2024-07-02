@@ -1,43 +1,57 @@
+"use server";
 
-"use server"
-
-import { CheckoutOrderParams, CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types"
+import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types";
 import { handleError } from '../utils';
 import { connectToDatabase } from '../database';
-import Order from '../database/models/order.model';
 import Event from '../database/models/event.model';
-import {ObjectId} from 'mongodb';
 import User from '../database/models/user.model';
-import EventDetails from "@/app/(root)/events/[id]/page";
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
+import { ObjectId } from 'mongodb';
+import Order from "../database/models/order.model";
 
-export const checkoutOrder = async (order: CheckoutOrderParams) => {
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY!,
+  key_secret: process.env.RAZORPAY_SECRET!,
+});
 
-  const price = order.isFree ? 0 : Number(order.price) * 100;
-  const id = order.eventId;
+// Function to create a Razorpay order
+export async function createRazorpayOrder(amount: number) {
+  const options = {
+    amount,
+    currency: 'INR',
+    receipt: 'order_rcptid_11',
+    payment_capture: 1,
+  };
 
-    try {
-      const response = await fetch("/api/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: price,
-          currency: "INR",
-          receipt: `receipt_${id}`,
-          payment_capture: 1,
-        }),
-      });
-
-      const order = await response.json();
+  try {
+    const order = await razorpay.orders.create(options);
+    return { order, error: null };
+  } catch (error) {
+    console.error('Error creating Razorpay order:', error);
+    return { order: null, error: 'Failed to create Razorpay order' };
   }
-  catch (error) {
-    console.error("Checkout error:", error);
-    alert("Checkout error. Please try again.");
-  }
-  
 }
 
+// Function to verify a Razorpay payment
+export async function verifyRazorpayPayment(
+  razorpay_order_id: string,
+  razorpay_payment_id: string,
+  razorpay_signature: string
+) {
+  const generated_signature = crypto
+    .createHmac('sha256', process.env.RAZORPAY_SECRET!)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+    .digest('hex');
+
+  if (generated_signature === razorpay_signature) {
+    return { success: true, message: null };
+  } else {
+    return { success: false, message: 'Invalid signature' };
+  }
+}
+
+// Function to create an order in the database
 export const createOrder = async (order: CreateOrderParams) => {
   try {
     await connectToDatabase();
@@ -52,15 +66,15 @@ export const createOrder = async (order: CreateOrderParams) => {
   } catch (error) {
     handleError(error);
   }
-}
+};
 
 // GET ORDERS BY EVENT
 export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEventParams) {
   try {
-    await connectToDatabase()
+    await connectToDatabase();
 
-    if (!eventId) throw new Error('Event ID is required')
-    const eventObjectId = new ObjectId(eventId)
+    if (!eventId) throw new Error('Event ID is required');
+    const eventObjectId = new ObjectId(eventId);
 
     const orders = await Order.aggregate([
       {
@@ -102,24 +116,23 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           $and: [{ eventId: eventObjectId }, { buyer: { $regex: RegExp(searchString, 'i') } }],
         },
       },
-    ])
+    ]);
 
-    return JSON.parse(JSON.stringify(orders))
+    return JSON.parse(JSON.stringify(orders));
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
 }
 
 // GET ORDERS BY USER
 export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUserParams) {
   try {
-    await connectToDatabase()
+    await connectToDatabase();
 
-    const skipAmount = (Number(page) - 1) * limit
-    const conditions = { buyer: userId }
+    const skipAmount = (Number(page) - 1) * limit;
+    const conditions = { buyer: userId };
 
-    const orders = await Order.distinct('event._id')
-      .find(conditions)
+    const orders = await Order.find(conditions)
       .sort({ createdAt: 'desc' })
       .skip(skipAmount)
       .limit(limit)
@@ -131,12 +144,12 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
           model: User,
           select: '_id firstName lastName',
         },
-      })
+      });
 
-    const ordersCount = await Order.distinct('event._id').countDocuments(conditions)
+    const ordersCount = await Order.countDocuments(conditions);
 
-    return { data: JSON.parse(JSON.stringify(orders)), totalPages: Math.ceil(ordersCount / limit) }
+    return { data: JSON.parse(JSON.stringify(orders)), totalPages: Math.ceil(ordersCount / limit) };
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
 }

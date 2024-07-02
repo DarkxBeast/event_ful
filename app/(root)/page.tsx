@@ -6,6 +6,7 @@ import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import CategoryFilter from "@/components/shared/CategoryFilter";
 import Carousel from "@/components/shared/Carousel";
+import TicketCard from "@/components/shared/TicketCard";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -22,8 +23,9 @@ export default async function Home({ searchParams }: SearchParamProps) {
 
   return (
     <>
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
-        <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
+      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-4 md:py-8">
+        <div className="wrapper grid grid-cols-1 gap-5 items-start
+        md:grid-cols-2 2xl:gap-0 mt-12">
           <div className="flex flex-col justify-center gap-8">
             <h1 className="h1-bold ">
               Make it EventFul: Host, Discover, Celebrate with Us!
@@ -43,7 +45,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
 
       <section
         id="events"
-        className="wrapper my-8 flex flex-col gap-8 md:gap-12"
+        className="wrapper my-8 flex flex-col gap-8 md:gap-12 mb-24"
       >
         <h2 className="h2-bold text-center">The Event's Library</h2>
 

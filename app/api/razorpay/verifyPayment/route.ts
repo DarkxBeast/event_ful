@@ -1,5 +1,6 @@
+import { verifyRazorpayPayment } from '@/lib/actions/order.actions';
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,17 +10,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'Missing required parameters' }, { status: 400 });
     }
 
-    // Verify the payment signature
-    const generated_signature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET!)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest('hex');
+    const { success, message } = await verifyRazorpayPayment(
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    );
 
-    if (generated_signature === razorpay_signature) {
-      // Payment is verified
+    if (success) {
       return NextResponse.json({ success: true }, { status: 200 });
     } else {
-      // Payment verification failed
-      return NextResponse.json({ success: false, message: 'Invalid signature' }, { status: 400 });
+      return NextResponse.json({ success: false, message }, { status: 400 });
     }
   } catch (error) {
     console.error('Error verifying payment:', error);

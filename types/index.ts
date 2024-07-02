@@ -104,16 +104,8 @@ export type CreateCategoryParams = {
 }
 
 // ====== ORDER PARAMS
-export type CheckoutOrderParams = {
-  eventTitle: string
-  eventId: string
-  price: string
-  isFree: boolean
-  buyerId: string
-}
-
 export type CreateOrderParams = {
-  stripeId: string
+  razorpayId: string
   eventId: string
   buyerId: string
   totalAmount: string

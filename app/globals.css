@@ -275,5 +275,14 @@ body {
   background-color: #624cf5 !important;
 }
 
-
+.separator {
+  height: 2px; /* Height of the border */
+  background-image: repeating-linear-gradient(
+    to right,
+    black -8px,
+    black 8px, /* Length of the dash */
+    transparent 10px,
+    transparent 20px /* Length of the dash plus the gap */
+  );
+}
 
