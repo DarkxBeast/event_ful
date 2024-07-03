@@ -11,6 +11,7 @@ import {
 import { Separator } from "../ui/separator";
 
 interface TicketCardProps {
+  imageUrl: string;
   eventTitle: string;
   memberName: string;
   date: string;
@@ -21,6 +22,7 @@ interface TicketCardProps {
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({
+  imageUrl,
   eventTitle,
   memberName,
   date,
@@ -40,7 +42,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
         <CardHeader className="flex flex-row justify-center items-center gap-12">
           <div className="w-36 h-36 flex-shrink-0">
             <img
-              src="/assets/images/jazz.jpeg"
+              src={imageUrl}
               alt="Event Image"
               className="w-full h-full object-cover rounded-2xl"
             />

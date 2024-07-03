@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="border-t">
       <div className="wrapper flex flex-col items-center justify-center p-5 text-center">
         {/* Logo and SignedIn section */}
-        <div className="w-full flex flex-col items-center sm:flex-col md:flex-col lg:flex-row lg:items-center lg:justify-between mb-4 relative">
+        <div className="w-full flex flex-col items-center sm:flex-col md:flex-col lg:flex-row lg:items-center lg:justify-between mb-4 mt-4 relative">
           {/* Logo */}
           <div className="mb-4 lg:mb-0 lg:absolute lg:left-0">
             <Link href="/">

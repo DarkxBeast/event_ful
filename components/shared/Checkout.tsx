@@ -1,13 +1,9 @@
-
 import { createOrder } from '@/lib/actions/order.actions';
 import { Button } from '../ui/button';
 import { IEvent } from '@/lib/database/models/event.model';
 import { useRouter } from 'next/navigation';
 
-
-
 const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) => {
-
   const router = useRouter();
 
   const loadScript = (src: string) => {
@@ -23,7 +19,6 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
       document.body.appendChild(script);
     });
   };
-
 
   const displayRazorpay = async () => {
     const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
@@ -46,14 +41,14 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
       }).then((t) => t.json());
 
       const order = {
-        razorpayId:data.id,
+        razorpayId: data.id,
         eventTitle: event.title,
-          eventId: event._id,
-          totalAmount: event.price,
-          isFree: event.isFree,
-          buyerId: userId,
-          createdAt: new Date(),
-      }
+        eventId: event._id,
+        totalAmount: event.price,
+        isFree: event.isFree,
+        buyerId: userId,
+        createdAt: new Date(),
+      };
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY!,
@@ -62,39 +57,35 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
         order_id: data.id,
         name: 'Eventful',
         description: event.title,
-        image: 'https://drive.google.com/file/d/16NG9lrqwTKjtFi5KbMKm29uQZpGeovSE/view?usp=sharing',
-        handler: function (response: any) {
+        image: 'https://cdn.razorpay.com/logos/OTlXBwdWrEnwCW_medium.png',
+        handler: async function (response: any) {
           alert(response.razorpay_payment_id);
           alert(response.razorpay_order_id);
           alert(response.razorpay_signature);
           // Verify payment on the server
-          verifyPayment(response);
+          await verifyPayment(response, order);
         },
         prefill: {
           name: '',
-          email:'',
+          email: '',
           contact: '',
         },
         notes: {
           address: 'Razorpay Corporate Office',
         },
         theme: {
-          color: '#F37254',
+          color: '#554DDE',
         },
       };
 
       const paymentObject = new (window as any).Razorpay(options);
       paymentObject.open();
-
-      await createOrder(order);
-
     } catch (error) {
       console.error('Error creating Razorpay order:', error);
     }
-    
   };
 
-  const verifyPayment = async (paymentResponse: any) => {
+  const verifyPayment = async (paymentResponse: any, order: any) => {
     try {
       const res = await fetch('/api/razorpay/verifyPayment', {
         method: 'POST',
@@ -107,6 +98,7 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
       const result = await res.json();
       if (result.success) {
         alert('Payment successful and verified!');
+        await createOrder(order);
         router.push('/payment/success');
       } else {
         alert('Payment verification failed. Please try again.');

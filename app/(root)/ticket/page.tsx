@@ -1,20 +1,30 @@
+
 import TicketCard from "@/components/shared/TicketCard";
+import { getOrdersByTicket} from "@/lib/actions/order.actions";
+import { SearchParamProps } from "@/types";
+import { auth } from "@clerk/nextjs/server";
 
 
-const MyComponent = () => {
+const TicketPage = async () => {
+  const { sessionClaims } = auth();
+  const userId = sessionClaims?.userId as string;
+  
+  const orders = await getOrdersByTicket({ userId })
+
   return (
     <div>
-      <TicketCard
-        eventTitle="Jazz in the Park"
-        memberName="Rahul Thakur"
-        date="02 July 2024"
-        time="Tue, 10:00PM"
-        admit="01 only"
-        venue="Washington Square Park, New York City, NY"
-        bookingId="00017829651792"
-      />
+        <TicketCard
+          imageUrl={orders?.data[0]?.event?.imageUrl || ''}
+          eventTitle={orders?.data[0]?.event?.title || ''}
+          memberName={orders?.data[1]?.buyer?.firstName || ''}
+          date={orders?.data[0]?.event?.startDateTime.split('T')[0] || ''}
+          time={orders?.data[0]?.event?.startDateTime.split('T')[1].substring(0, 5).replace(':', ':') || ''}
+          admit="01 only" // Assuming this is fixed or calculated
+          venue={orders?.data[0]?.event?.location || ''}
+          bookingId={orders?.data[0]?.razorpayId || ''}
+        />
     </div>
   );
-};
+}
 
-export default MyComponent;
+export default TicketPage;

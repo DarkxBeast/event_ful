@@ -7,6 +7,8 @@ export interface IOrder extends Document {
   event: {
     _id: string
     title: string
+    location: string
+    startDateTime: Date
   }
   buyer: {
     _id: string
@@ -51,6 +53,6 @@ const OrderSchema = new Schema({
 
 OrderSchema.index({ razorpayId: 1 })
 
-const Order = models.Order || model('Order', OrderSchema)
+const Order = models.Order || model<IOrder>('Order', OrderSchema)
 
 export default Order

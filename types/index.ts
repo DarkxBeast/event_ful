@@ -123,6 +123,10 @@ export type GetOrdersByUserParams = {
   page: string | number | null
 }
 
+export type GetOrdersByTicketParams = {
+  userId: string | null
+}
+
 // ====== URL QUERY PARAMS
 export type UrlQueryParams = {
   params: string

@@ -1,6 +1,8 @@
+import { model } from 'mongoose';
+import { usePathname } from 'next/navigation';
 "use server";
 
-import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types";
+import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByTicketParams, GetOrdersByUserParams } from "@/types";
 import { handleError } from '../utils';
 import { connectToDatabase } from '../database';
 import Event from '../database/models/event.model';
@@ -58,8 +60,10 @@ export const createOrder = async (order: CreateOrderParams) => {
     
     const newOrder = await Order.create({
       ...order,
+
       event: order.eventId,
       buyer: order.buyerId,
+      razorpayId: order.razorpayId,
     });
 
     return JSON.parse(JSON.stringify(newOrder));
@@ -139,16 +143,40 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
       .populate({
         path: 'event',
         model: Event,
-        populate: {
-          path: 'organizer',
-          model: User,
-          select: '_id firstName lastName',
-        },
-      });
+      })
+      .populate({
+        path:'buyer',
+        model:User,
+        select:'_id firstName lastName'
+      })
 
     const ordersCount = await Order.countDocuments(conditions);
 
     return { data: JSON.parse(JSON.stringify(orders)), totalPages: Math.ceil(ordersCount / limit) };
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+// GET ORDERS BY TICKET
+export async function getOrdersByTicket({ userId }: GetOrdersByTicketParams) {
+  try {
+    await connectToDatabase();
+
+    const conditions = { buyer: userId };
+
+    const orders = await Order.find(conditions)
+      .sort({ createdAt: 'desc' })
+      .populate({
+        path: 'event',
+        model: Event,
+        populate: {
+          path: 'organizer',
+          model: User,
+        },
+      });
+
+    return { data: JSON.parse(JSON.stringify(orders)) };
   } catch (error) {
     handleError(error);
   }
