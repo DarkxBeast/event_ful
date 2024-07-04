@@ -127,6 +127,13 @@ export type GetOrdersByTicketParams = {
   userId: string | null
 }
 
+// ====== TICKET PARAMS
+export type CreateTicketParams = {
+  razorpayId: string;
+  eventId: string;  // This will be the ObjectId as a string
+  buyerId: string;  // This will be the ObjectId as a string
+};
+
 // ====== URL QUERY PARAMS
 export type UrlQueryParams = {
   params: string

@@ -1,5 +1,3 @@
-import { model } from 'mongoose';
-import { usePathname } from 'next/navigation';
 "use server";
 
 import { CreateOrderParams, GetOrdersByEventParams, GetOrdersByTicketParams, GetOrdersByUserParams } from "@/types";
@@ -110,14 +108,15 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           createdAt: 1,
           eventTitle: '$event.title',
           eventId: '$event._id',
-          buyer: {
+          buyerName: {
             $concat: ['$buyer.firstName', ' ', '$buyer.lastName'],
           },
+          buyerEmail: '$buyer.email',
         },
       },
       {
         $match: {
-          $and: [{ eventId: eventObjectId }, { buyer: { $regex: RegExp(searchString, 'i') } }],
+          $and: [{ eventId: eventObjectId }, { buyerName: { $regex: RegExp(searchString, 'i') } }],
         },
       },
     ]);

@@ -98,7 +98,7 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
       const result = await res.json();
       if (result.success) {
         alert('Payment successful and verified!');
-        await createOrder(order);
+        await createOrder(order) ;
         router.push('/payment/success');
       } else {
         alert('Payment verification failed. Please try again.');

@@ -8,7 +8,6 @@ import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 
-
 const EventDetails = async ({
   params: { id },
   searchParams,
@@ -25,9 +24,7 @@ const EventDetails = async ({
     <>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl">
-          <div className="pt-12">
-            {" "}
-            {/* Add padding to the top */}
+          <div className="pt-12 sm:pr-8 ">
             <Image
               src={event.imageUrl}
               alt="hero image"
@@ -41,22 +38,35 @@ const EventDetails = async ({
             <div className="flex flex-col gap-6">
               <h2 className="h2-bold">{event.title}</h2>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="inline-flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
-                  <p className="p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700">
-                    {event.isFree ? "FREE" : `$${event.price}`}
+                  <p className="p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700 justify-evenly items-center ">
+                    {event.isFree ? (
+                      "FREE"
+                    ) : (
+                      <>
+                        <img
+                          src={"/assets/icons/rupee-green.svg"}
+                          alt="Rupee"
+                          className=" inline-flex h-4 w-4 mb-1 "
+                        />
+                        {event.price}
+                      </>
+                    )}
                   </p>
                   <p className="p-medium-16 rounded-full bg-grey-500/10 px-4 py-2.5 text-gray-600">
                     {event.category.name}
                   </p>
                 </div>
 
-                <p className="p-medium-16 rounded-full bg-acent-500/10 text-gray-700 px-4 py-2.5">
-                  By{" "}
-                  <span className="text-acent-500">
-                    {event.organizer.firstName} {event.organizer.lastName}
-                  </span>
-                </p>
+                <div className="flex flex-wrap">
+                  <p className="p-medium-16 rounded-full bg-acent-500/10 text-gray-600 px-4 py-2.5">
+                    HOST:{" "}
+                    <span className="text-acent-500 ml-2">
+                      {event.organizer.firstName} {event.organizer.lastName}
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -103,7 +113,7 @@ const EventDetails = async ({
                 src={`https://www.google.com/maps/embed/v1/place?key=${
                   process.env.GMAPS_API_KEY
                 }&q=${encodeURIComponent(event.location)}`}
-                width="600"
+                width="400"
                 height="200"
                 style={{ border: 0 }}
                 loading="lazy"
@@ -113,14 +123,16 @@ const EventDetails = async ({
 
             <div className="flex flex-col gap-2">
               <p className="p-bold-20 text-gray-600">Details:</p>
-              <p className="p-medium-16 lg:p-medium-18 text-justify">{event.description}</p>
+              <p className="p-medium-16 lg:p-medium-18 text-justify">
+                {event.description}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* EVENTS with the same category */}
-      <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
+      <section className="wrapper my-8 flex flex-col gap-8 md:gap-12 mb-24">
         <h2 className="h2-bold">Related Events</h2>
 
         <Collection

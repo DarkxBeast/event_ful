@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import { DeleteConfirmation } from "./DeleteConfirmation";
+import { Button } from "../ui/button";
 
 type CardProps = {
   event: IEvent;
@@ -15,14 +16,14 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
 
-  const isEventCreator = userId === event.organizer._id.toString();
+  const isEventCreator = userId === event.organizer._id;
 
   return (
-    <div className="group relative flex h-full min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-white shadow-xl transition-all hover:scale-105 hover:shadow-stroke-500  md:min-h-[438px] border border-stroke-500">
+    <div className="group relative flex h-full min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-white shadow-xl transition-all hover:scale-105 hover:shadow-stroke-500 md:min-h-[438px] border border-stroke-500">
       <Link
         href={`/events/${event._id}`}
         style={{ backgroundImage: `url(${event.imageUrl})` }}
-        className=" h-[40%] flex-center bg-gray-50 bg-cover bg-center text-grey-500"
+        className="h-[40%] flex-center bg-gray-50 bg-cover bg-center text-grey-500"
       />
       {/* IS EVENT CREATOR ... */}
 
@@ -41,14 +42,25 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
         </div>
       )}
 
-      <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4 border-t border-t-stroke-500 ">
+      <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4 border-t border-t-stroke-500 relative">
         {!hidePrice && (
-          <div className=" inline-flex gap-4">
-            <span className="p-semibold-14 w-min rounded-full bg-acent-500 text-white px-4 py-1 ">
-              {event.isFree ? "FREE" : `$${event.price}`}
+          <div className="inline-flex gap-4">
+            <span className="flex p-semibold-16 w-md rounded-full bg-acent-500 text-white px-4 py-1 justify-between items-center ">
+            {event.isFree ? (
+                      "FREE"
+                    ) : (
+                      <>
+                        <img
+                          src={"/assets/icons/rupee-white.svg"}
+                          alt="Rupee"
+                          className=" inline-flex h-4 w-4 "
+                        />
+                        {event.price}
+                      </>
+                    )}
             </span>
             <span>
-              <p className="p-semibold-14 w-max rounded-full bg-grey-500/10 px-4 py-1 text-grey-500 line-clamp-1">
+              <p className="p-semibold-18 w-max rounded-full bg-grey-500/10 px-4 py-1 text-grey-600 line-clamp-1">
                 {event.category.name}
               </p>
             </span>
@@ -75,6 +87,21 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
           <span style={{ marginRight: "4px" }}>Venue:</span>
           <span style={{ marginLeft: "12px" }}>{event.location}</span>
         </div>
+
+        {hasOrderLink && (
+          <div className="absolute bottom-[-12px] right-8">
+            <Link href={`/orders?eventId=${event._id}`} className="flex gap-2">
+              <Button className="text-white rounded-full gap-2">
+              <Image
+                  src="/assets/icons/arrow.svg"
+                  alt="arrow"
+                  width={12}
+                  height={12}/>
+                  Order Details
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

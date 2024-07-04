@@ -1,7 +1,5 @@
-
 import TicketCard from "@/components/shared/TicketCard";
-import { getOrdersByTicket} from "@/lib/actions/order.actions";
-import { SearchParamProps } from "@/types";
+import { getOrdersByTicket } from "@/lib/actions/order.actions";
 import { auth } from "@clerk/nextjs/server";
 
 
