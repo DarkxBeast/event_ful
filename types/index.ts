@@ -129,6 +129,7 @@ export interface GetTicketByUserAndEventParams {
 }
 
 
+
 // ====== URL QUERY PARAMS
 export type UrlQueryParams = {
   params: string

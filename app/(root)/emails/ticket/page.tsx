@@ -1,5 +1,6 @@
 import {
-  Tailwind, Html,
+  Tailwind,
+  Html,
   Head,
   Body,
   Container,
@@ -12,26 +13,19 @@ import {
 } from "@react-email/components";
 
 interface TicketEmailProps {
-  imageUrl: string;
-  eventTitle: string;
-  memberName: string;
-  date: string;
-  time: string;
-  admit: string;
-  venue: string;
-  bookingId: string;
+  params: {
+    imageUrl: string;
+    eventTitle: string;
+    memberName: string;
+    date: string;
+    time: string;
+    admit: string;
+    venue: string;
+    bookingId: string;
+  };
 }
 
-export default function TicketEmail({
-  imageUrl,
-  eventTitle,
-  memberName,
-  date,
-  time,
-  admit,
-  venue,
-  bookingId,
-}: TicketEmailProps) {
+export default function TicketEmail({params }: TicketEmailProps) {
   return (
     <Tailwind>
       <Html>
@@ -50,7 +44,7 @@ export default function TicketEmail({
               <Row>
                 <Img
                   className="w-full"
-                  src={imageUrl}
+                  src={params.imageUrl}
                   width={500}
                   height={300}
                   alt="Event Header"
@@ -60,34 +54,34 @@ export default function TicketEmail({
               <Row className="p-5">
                 <Column>
                   <Heading className="text-2xl font-bold text-center text-gray-900 mb-4">
-                    Your Ticket for {eventTitle}
+                    Your Ticket for {params.eventTitle}
                   </Heading>
                   <Text className="text-base mt-4 text-gray-800">
-                    Hello {memberName},
+                    Hello {params.memberName},
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
                     Thank you for your purchase! Here are your ticket details:
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Event:</strong> {eventTitle}
+                    <strong>Event:</strong> {params.eventTitle}
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Date:</strong> {date}
+                    <strong>Date:</strong> {params.date}
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Time:</strong> {time}
+                    <strong>Time:</strong> {params.time}
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Admit:</strong> {admit}
+                    <strong>Admit:</strong> {params.admit}
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Venue:</strong> {venue}
+                    <strong>Venue:</strong> {params.venue}
                   </Text>
                   <Text className="text-base mt-2 text-gray-800">
-                    <strong>Booking ID:</strong> {bookingId}
+                    <strong>Booking ID:</strong> {params.bookingId}
                   </Text>
                   <Text className="text-center mt-2 text-gray-800">
-                   <strong>We look forward to seeing you there!</strong> 
+                    <strong>We look forward to seeing you there!</strong>
                   </Text>
                 </Column>
               </Row>

@@ -3,7 +3,6 @@ import { createTicket } from "@/lib/actions/ticket.action";
 import { formatDateTime, handleError } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import { sendTicketEmail } from "../../email/send/route";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -29,14 +28,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       const ticket = await createTicket(data);
       
       if (ticket) {
-        const emailResponse = await sendTicketEmail(data);
-        if (emailResponse.success) {
-          console.log('Email sent successfully');
-        } else {
-          console.error('Error sending email:', emailResponse.message);
-        }
-
         return NextResponse.json({ ticketData: data },{ status: 200 });
+        
       } else {
         return NextResponse.json({ error: 'Failed to create Razorpay order' }, { status: 500 });
       }
