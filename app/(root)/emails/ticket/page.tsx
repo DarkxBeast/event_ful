@@ -12,20 +12,7 @@ import {
   Section,
 } from "@react-email/components";
 
-interface TicketEmailProps {
-  params: {
-    imageUrl: string;
-    eventTitle: string;
-    memberName: string;
-    date: string;
-    time: string;
-    admit: string;
-    venue: string;
-    bookingId: string;
-  };
-}
-
-export default function TicketEmail({params }: TicketEmailProps) {
+export default function TicketEmail(params:any) {
   return (
     <Tailwind>
       <Html>
