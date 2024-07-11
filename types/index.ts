@@ -98,11 +98,6 @@ export type Event = {
   }
 }
 
-// ====== CATEGORY PARAMS
-export type CreateCategoryParams = {
-  categoryName: string
-}
-
 // ====== ORDER PARAMS
 export type CreateOrderParams = {
   razorpayId: string
@@ -127,12 +122,12 @@ export type GetOrdersByTicketParams = {
   userId: string | null
 }
 
-// ====== TICKET PARAMS
-export type CreateTicketParams = {
-  razorpayId: string;
-  eventId: string;  // This will be the ObjectId as a string
-  buyerId: string;  // This will be the ObjectId as a string
-};
+
+export interface GetTicketByUserAndEventParams {
+  userId: string;
+  eventId: string;
+}
+
 
 // ====== URL QUERY PARAMS
 export type UrlQueryParams = {

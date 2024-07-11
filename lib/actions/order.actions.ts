@@ -9,6 +9,8 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
 import Order from "../database/models/order.model";
+import { createTicket } from "./ticket.action";
+
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY!,
@@ -65,7 +67,8 @@ export const createOrder = async (order: CreateOrderParams) => {
     });
 
     return JSON.parse(JSON.stringify(newOrder));
-  } catch (error) {
+  }
+   catch (error) {
     handleError(error);
   }
 };
@@ -169,11 +172,12 @@ export async function getOrdersByTicket({ userId }: GetOrdersByTicketParams) {
       .populate({
         path: 'event',
         model: Event,
-        populate: {
-          path: 'organizer',
-          model: User,
-        },
-      });
+      })
+      .populate({
+        path:'buyer',
+        model:User,
+        select:'_id firstName lastName'
+      })
 
     return { data: JSON.parse(JSON.stringify(orders)) };
   } catch (error) {

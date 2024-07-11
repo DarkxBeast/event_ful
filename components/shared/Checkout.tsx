@@ -59,9 +59,9 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
         description: event.title,
         image: 'https://cdn.razorpay.com/logos/OTlXBwdWrEnwCW_medium.png',
         handler: async function (response: any) {
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature);
+          console.log(response.razorpay_payment_id);
+          console.log(response.razorpay_order_id);
+          console.log(response.razorpay_signature);
           // Verify payment on the server
           await verifyPayment(response, order);
         },
@@ -97,11 +97,11 @@ const RazorpayCheckout = ({ event, userId }: { event: IEvent, userId: string }) 
 
       const result = await res.json();
       if (result.success) {
-        alert('Payment successful and verified!');
+        console.log('Payment successful and verified!');
         await createOrder(order) ;
         router.push('/payment/success');
       } else {
-        alert('Payment verification failed. Please try again.');
+        console.log('Payment verification failed. Please try again.');
         router.push('/payment/failed');
       }
     } catch (error) {

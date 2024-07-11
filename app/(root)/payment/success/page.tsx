@@ -1,14 +1,12 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Transition } from '@headlessui/react';
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const PaymentSuccessPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [secondsLeft, setSecondsLeft] = useState(5);
-  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -16,42 +14,32 @@ const PaymentSuccessPage = () => {
     }, 1000);
 
     const redirectTimer = setTimeout(() => {
-      setIsFading(true);
-    }, 4000);
-
-    const finalRedirect = setTimeout(() => {
-      router.push(`/ticket?${searchParams.toString()}`);
+      router.push(`/ticket/create?${searchParams.toString()}`);
     }, 5000);
 
     return () => {
       clearInterval(interval);
       clearTimeout(redirectTimer);
-      clearTimeout(finalRedirect);
     };
   }, [router, searchParams]);
 
   return (
-    <Transition
-      show={!isFading}
-      enter="transition-opacity duration-1000"
-      enterFrom="opacity-100"
-      enterTo="opacity-0"
-      leave="transition-opacity duration-1000"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-    >
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-          <h1 className="text-3xl font-bold text-center text-acent-500 mb-4">Payment Successful!</h1>
-          <p className="text-lg text-gray-800 text-center">
-            Your payment has been successfully processed. You will be redirected to your ticket shortly.
-          </p>
-          <p className="text-lg text-gray-500 text-center mt-4">
-            Redirecting in {secondsLeft} {secondsLeft === 1 ? 'second' : 'seconds'}...
-          </p>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <h1 className="text-3xl font-bold text-center text-primary mb-6">
+          Payment Successful!
+        </h1>
+        <div className="flex flex-grow gap-2 justify-center items-center space-x-2 mb-6">
+          <div className="w-4 h-4 rounded-full bg-primary animate-bounce"></div>
+          <div className="w-4 h-4 rounded-full bg-primary animate-bounce"></div>
+          <div className="w-4 h-4 rounded-full bg-primary animate-bounce"></div>
         </div>
+        <p className="text-lg text-gray-600 text-center mb-6">
+          Redirecting in {secondsLeft}{" "}
+          {secondsLeft === 1 ? "second" : "seconds"}...
+        </p>
       </div>
-    </Transition>
+    </div>
   );
 };
 

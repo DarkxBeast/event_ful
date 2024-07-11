@@ -1,45 +1,35 @@
-import { Document, Schema, model, models } from "mongoose";
+import { Schema, Document, model, models } from 'mongoose';
 
 export interface ITicket extends Document {
-    createdAt: Date;
-    razorpayId: string;
-    event: {
-        _id: string;
-        title: string;
-        imageUrl: string;
-        location: string;
-        startDateTime: Date;
-    };
-    buyer: {
-        _id: string;
-        firstName: string;
-        lastName: string;
-    };
+  _id: string;
+  imageUrl: string;
+  eventTitle: string;
+  memberName: string;
+  date: string;
+  time: string;
+  admit: string;
+  venue: string;
+  bookingId: string;
+  eventId: { _id: string, title: string }
+  userId: { _id: string, firstName: string, lastName: string }
 }
 
-export type ITicketItem = {
-    _id: string;
-    eventId: string;
-    eventTitle: string;
-    buyer: string;
-};
-
-const TicketSchema = new Schema({
-    razorpayId: { type: String, required: true, unique: true },
-    createdAt: { type: Date, default: Date.now },
-    event: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event',
-        required: true,
-    },
-    buyer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
+const TicketSchema: Schema = new Schema({
+  imageUrl: { type: String, required: true },
+  eventTitle: { type: String, required: true },
+  memberName: { type: String, required: true },
+  date: { type: String, required: true },
+  time: { type: String, required: true },
+  admit: { type: String, required: true },
+  venue: { type: String, required: true },
+  bookingId: { type: String, required: true, unique: true },
+  eventId: { type: Schema.Types.ObjectId, required: true, ref: 'Event' },
+  userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+}, {
+  timestamps: true,
 });
 
-TicketSchema.index({ razorpayId: 1 })
+TicketSchema.index({ bookingId: 1 });
 
 const Ticket = models.Ticket || model<ITicket>('Ticket', TicketSchema);
 

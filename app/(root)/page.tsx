@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
     query: searchText,
     category,
     page,
-    limit: 6,
+    limit: 3,
   });
 
 
@@ -53,15 +53,18 @@ export default async function Home({ searchParams }: SearchParamProps) {
           <Search />
           <CategoryFilter />
         </div>
+        <div className="mt-8">
         <Collection
           data={events?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
-          limit={6}
+          limit={3}
           page={page}
           totalPages={events?.totalPages}
         />
+        </div>
+        
       </section>
     </>
   );

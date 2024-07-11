@@ -29,11 +29,12 @@ type CollectionProps = {
             <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
               {data.map((event) => {
                 const hasOrderLink = collectionType === 'Events_Organized';
+                const hasTicketLink = collectionType === 'My_Tickets';
                 const hidePrice = collectionType === 'My_Tickets';
   
                 return (
                   <li key={event._id} className="flex justify-center">
-                    <Card event={event} hasOrderLink={hasOrderLink} hidePrice={hidePrice} />
+                    <Card event={event} hasOrderLink={hasOrderLink} hasTicketLink={hasTicketLink} hidePrice={hidePrice} />
                   </li>
                 )
               })}

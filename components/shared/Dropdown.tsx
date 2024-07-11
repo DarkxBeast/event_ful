@@ -6,8 +6,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { ICategory } from "@/lib/database/models/category.model"
-import { startTransition, useEffect, useState } from "react"
-import { createCategory, getAllCategories } from "@/lib/actions/category.actions"
+import { useEffect, useState } from "react"
+import { getAllCategories } from "@/lib/actions/category.actions"
 
 type DropdownProps = {
   value?: string
@@ -16,16 +16,6 @@ type DropdownProps = {
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [newCategory, setNewCategory] = useState('');
-
-  const handleAddCategory = () => {
-    createCategory({
-      categoryName: newCategory.trim()
-    })
-      .then((category) => {
-        setCategories((prevState) => [...prevState, category])
-      })
-  }
 
   useEffect(() => {
     const getCategories = async () => {
