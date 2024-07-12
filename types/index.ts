@@ -98,6 +98,11 @@ export type Event = {
   }
 }
 
+// ====== CATEGORY PARAMS
+export type CreateCategoryParams = {
+  categoryName: string
+}
+
 // ====== ORDER PARAMS
 export type CreateOrderParams = {
   razorpayId: string

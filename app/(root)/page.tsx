@@ -6,7 +6,6 @@ import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import CategoryFilter from "@/components/shared/CategoryFilter";
 import Carousel from "@/components/shared/Carousel";
-import TicketCard from "@/components/shared/TicketCard";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -17,15 +16,16 @@ export default async function Home({ searchParams }: SearchParamProps) {
     query: searchText,
     category,
     page,
-    limit: 3,
+    limit: 6,
   });
-
 
   return (
     <>
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain py-4 md:py-8">
-        <div className="wrapper grid grid-cols-1 gap-5 items-start
-        md:grid-cols-2 2xl:gap-0 mt-12">
+      <section className="bg-primary-50 bg-dotted-pattern bg-contain items-start py-4 md:py-8">
+        <div
+          className="wrapper grid grid-cols-1 gap-16 items-start justify-stretch
+        md:grid-cols-2 sm:grid-rows-1"
+        >
           <div className="flex flex-col justify-center gap-8">
             <h1 className="h1-bold ">
               Make it EventFul: Host, Discover, Celebrate with Us!
@@ -38,8 +38,9 @@ export default async function Home({ searchParams }: SearchParamProps) {
               <Link href="#events">Explore Now</Link>
             </Button>
           </div>
-
-        <Carousel />
+          <div>
+            <Carousel />
+          </div>
         </div>
       </section>
 
@@ -54,17 +55,16 @@ export default async function Home({ searchParams }: SearchParamProps) {
           <CategoryFilter />
         </div>
         <div className="mt-8">
-        <Collection
-          data={events?.data}
-          emptyTitle="No Events Found"
-          emptyStateSubtext="Come back later"
-          collectionType="All_Events"
-          limit={3}
-          page={page}
-          totalPages={events?.totalPages}
-        />
+          <Collection
+            data={events?.data}
+            emptyTitle="No Events Found"
+            emptyStateSubtext="Come back later"
+            collectionType="All_Events"
+            limit={6}
+            page={page}
+            totalPages={events?.totalPages}
+          />
         </div>
-        
       </section>
     </>
   );

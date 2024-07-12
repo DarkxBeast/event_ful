@@ -92,7 +92,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   }
 
   return (
-    <div className="border border-gray-200 p-4 md:p-8 max-w-2xl mx-auto mt-4 rounded-2xl bg-primary-50/20 shadow-lg shadow-stroke-500">
+    <div className="border border-gray-300 p-4 md:p-8 max-w-2xl mx-auto mt-4 rounded-2xl bg-primary-50/20 shadow-lg shadow-stroke-500">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

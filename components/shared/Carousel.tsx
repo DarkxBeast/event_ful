@@ -13,17 +13,16 @@ import {
 import Image from "next/image";
 
 const images = [
+  "/assets/carousel/carousel1.png",
+  "/assets/carousel/carousel2.png",
   "/assets/carousel/carousel3.png",
   "/assets/carousel/carousel4.png",
   "/assets/carousel/carousel5.png",
-  "/assets/carousel/carousel6.png",
-  "/assets/carousel/carousel7.png",
-  "/assets/carousel/carousel8.png",
 ];
 
 const CarouselComponent = () => {
   const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true,stopOnMouseEnter: true })
+    Autoplay({ delay: 3000 })
   );
 
   return (
@@ -38,12 +37,12 @@ const CarouselComponent = () => {
       <CarouselContent>
         {images.map((src, index) => (
           <CarouselItem key={index}>
-            <div className="w-full h-full flex-shrink-0">
+            <div className="w-[80%] h-[80%] flex-shrink-0">
               <Image
                 src={src}
                 alt={`carousel image ${index + 1}`}
-                width={1500}
-                height={1500}
+                width={1000}
+                height={1000}
                 className="object-cover"
               />
             </div>

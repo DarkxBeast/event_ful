@@ -47,7 +47,7 @@ const Card = ({ event, hasOrderLink, hasTicketLink, hidePrice }: CardProps) => {
   const isEventCreator = userId === event.organizer._id;
 
   return (
-    <div className="group relative flex h-5/6 w-auto max-w-[400px] flex-col overflow-visible rounded-xl bg-clip-border bg-white shadow-xl transition-all hover:scale-105 hover:shadow-stroke-500 md:min-h-[438px] border border-gray-200">
+    <div className="group relative flex h-5/6 w-auto max-w-[400px] flex-col overflow-visible rounded-xl bg-clip-border bg-white shadow-2xl transition-all hover:scale-105 hover:shadow-stroke-500 md:min-h-[438px] border border-gray-300">
       {/* Event Image */}
       <div className="relative w-auto h-1/2 mx-4 -mt-6 overflow-hidden rounded-xl bg-clip-border text-white shadow-md shadow-gray-400">
         <Link href={`/events/${event._id}`}>
@@ -77,7 +77,7 @@ const Card = ({ event, hasOrderLink, hasTicketLink, hidePrice }: CardProps) => {
       )}
 
       {/* Event Details */}
-      <div className="flex flex-col gap-3 p-5 md:gap-4 relative min-h-[230px]">
+      <div className="flex flex-col gap-2 p-5 md:gap-4 relative min-h-[230px]">
         {/* Price and Category */}
         {!hidePrice && (
           <div className="inline-flex gap-4">
@@ -112,7 +112,7 @@ const Card = ({ event, hasOrderLink, hasTicketLink, hidePrice }: CardProps) => {
 
         {/* Event Date */}
         <p className="p-medium-16 p-medium-18 text--black-500">
-          <span style={{ marginLeft: "12px" }}>Date:</span>
+          <span style={{ marginLeft: "8px" }}>Date:</span>
           <span style={{ marginLeft: "16px" }}>
             {formatDateTime(event.startDateTime).dateTime}
           </span>
@@ -123,7 +123,7 @@ const Card = ({ event, hasOrderLink, hasTicketLink, hidePrice }: CardProps) => {
           className="p-medium-16 p-medium-18 text--black-500"
           style={{ display: "flex", alignItems: "flex-start" }}
         >
-          <span style={{ marginRight: "4px" }}>Venue:</span>
+          <span style={{ marginLeft: "8px" }}>Venue:</span>
           <span style={{ marginLeft: "12px" }}>{event.location}</span>
         </div>
 
